@@ -31,18 +31,11 @@ public class HelpdeskturmaaApplication implements CommandLineRunner {
         SpringApplication.run(HelpdeskturmaaApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        Tecnico tec1 = new Tecnico(null, "Bill Gates", "706.457.770-93", "bill@mail.com", "123");
-        tec1.addPerfil(Perfil.ADMIN);
+	@Override
+	public void run(String... args) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 
-        Cliente cli1 = new Cliente(null, "Linus Torvalds", "705.117.410-13", "linus@mail.com", "123");
-
-        Chamado ch1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO,
-                "Chamado 01", "Primeiro chamado", cli1, tec1);
-
-        tecnicoRepository.save(tec1);
-        clienteRepository.save(cli1);
-        chamadoRepository.save(ch1);
-    }
+   
 }
