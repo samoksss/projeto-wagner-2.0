@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.turmaa.helpdesk.domain.dtos.ChamadoDTO;
 import com.turmaa.helpdesk.domain.enums.Prioridade;
 import com.turmaa.helpdesk.domain.enums.Status;
 
@@ -49,6 +50,16 @@ public class Chamado implements Serializable {
         this.observacoes = observacoes;
         this.cliente = cliente;
         this.tecnico = tecnico;
+    }
+    
+    // NOVO CONSTRUTOR: Transforma um ChamadoDTO em uma entidade Chamado
+    public Chamado(ChamadoDTO obj) {
+        super();
+        this.id = obj.getId();
+        this.prioridade = obj.getPrioridade().getCodigo();  // CORREÇÃO: Pega o código numérico
+        this.status = obj.getStatus().getCodigo();       // CORREÇÃO: Pega o código numérico
+        this.titulo = obj.getTitulo();
+        this.observacoes = obj.getObservacoes();
     }
 
     public Integer getId() { return id; }
