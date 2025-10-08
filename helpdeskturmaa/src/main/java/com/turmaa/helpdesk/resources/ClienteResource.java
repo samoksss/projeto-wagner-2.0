@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid; // Necessário para DTOs com validação
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize; // Importe esta classe!
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +32,13 @@ public class ClienteResource {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
+        // Não adicionamos @PreAuthorize aqui para permitir que o ADMIN ou o próprio Cliente veja seus dados.
         Cliente obj = service.findById(id);
         return ResponseEntity.ok().body(new ClienteDTO(obj));
     }
     
+    // Restringe o acesso total à listagem de clientes apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')") 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
         List<Cliente> list = service.findAll();
@@ -40,21 +46,24 @@ public class ClienteResource {
         return ResponseEntity.ok().body(listDTO);
     }
     
+    // Não restringimos a criação. Clientes precisam criar suas próprias contas (aberto para todos).
     @PostMapping
-    public ResponseEntity<ClienteDTO> create(@RequestBody ClienteDTO objDTO) {
+    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO) {
         Cliente newObj = service.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
     
-    // NOVO: Endpoint para atualizar um cliente
+    // Restringe a atualização de clientes apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @RequestBody ClienteDTO objDTO) {
+    public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO) {
         Cliente newObj = service.update(id, objDTO);
         return ResponseEntity.ok().body(new ClienteDTO(newObj));
     }
     
-    // NOVO: Endpoint para deletar um cliente
+    // Restringe a deleção de clientes apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);

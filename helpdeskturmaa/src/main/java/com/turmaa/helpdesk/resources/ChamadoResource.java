@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,8 @@ public class ChamadoResource {
 		return ResponseEntity.ok().body(new ChamadoDTO(obj));
 	}
 	
+	// Apenas ADMIN e TÉCNICO podem ver a lista completa de chamados.
+	@PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
 	@GetMapping
 	public ResponseEntity<List<ChamadoDTO>> findAll() {
 		List<Chamado> list = service.findAll();
@@ -40,21 +45,24 @@ public class ChamadoResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	// Qualquer usuário pode criar um chamado.
 	@PostMapping
-	public ResponseEntity<ChamadoDTO> create(@RequestBody ChamadoDTO objDTO) {
+	public ResponseEntity<ChamadoDTO> create(@Valid @RequestBody ChamadoDTO objDTO) {
 		Chamado newObj = service.create(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	// NOVO ENDPOINT: Atualiza um chamado
+	// Apenas ADMIN e TÉCNICO podem atualizar um chamado.
+	@PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ChamadoDTO> update(@PathVariable Integer id, @RequestBody ChamadoDTO objDTO) {
+	public ResponseEntity<ChamadoDTO> update(@PathVariable Integer id, @Valid @RequestBody ChamadoDTO objDTO) {
 		Chamado newObj = service.update(id, objDTO);
 		return ResponseEntity.ok().body(new ChamadoDTO(newObj));
 	}
 	
-	// NOVO ENDPOINT: Deleta um chamado
+	// Apenas ADMIN pode deletar um chamado.
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);

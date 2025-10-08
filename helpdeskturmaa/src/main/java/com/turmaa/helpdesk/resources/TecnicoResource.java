@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid; // Necessário para DTOs com validação
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize; // NOVO IMPORT
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,8 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(new TecnicoDTO(obj));
     }
 	
+    // Restringe o acesso total à lista de técnicos apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')") 
     @GetMapping
     public ResponseEntity<List<TecnicoDTO>> findAll() {
         List<Tecnico> list = service.findAll();
@@ -40,19 +45,26 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(listDTO);
     }
 
+    // Restringe a criação de técnicos apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO objDTO) {
+    // Adicionei @Valid aqui, pois é uma boa prática ao receber um DTO via POST/PUT
+    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO) { 
         Tecnico newObj = service.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
     
+    // Restringe a atualização de técnicos apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @RequestBody TecnicoDTO objDTO) {
+    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO) {
         Tecnico newObj = service.update(id, objDTO);
         return ResponseEntity.ok().body(new TecnicoDTO(newObj));
     }
     
+    // Restringe a deleção de técnicos apenas para o perfil ADMIN.
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);

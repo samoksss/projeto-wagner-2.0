@@ -8,16 +8,15 @@ import org.springframework.context.annotation.Profile;
 import com.turmaa.helpdesk.service.DBService;
 
 @Configuration
-@Profile("test")
+@Profile("test") // Garante que este bean só seja ativado no perfil 'test'
 public class TestConfig {
 
-    @Autowired
-    private DBService dbService;
+	@Autowired
+	private DBService dbService;
 
-    /** Inicia o banco H2 com dados de exemplo */
-    @Bean
-    public boolean instanciaDB() {
-        dbService.instanciaDB();
-        return true; // Bean só para disparar a carga ao subir o contexto
-    }
+	@Bean
+	public boolean instanciaDB() {
+		this.dbService.instanciaDB();
+		return true;
+	}
 }

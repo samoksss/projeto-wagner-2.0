@@ -4,56 +4,52 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.turmaa.helpdesk.domain.Tecnico;
 import com.turmaa.helpdesk.domain.dtos.TecnicoDTO;
-import com.turmaa.helpdesk.service.exceptions.ObjectNotFoundException;
-import com.turmaa.helpdesk.service.exceptions.DataIntegrityViolationException;
 import com.turmaa.helpdesk.repositories.TecnicoRepository;
+import com.turmaa.helpdesk.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class TecnicoService {
 
-    @Autowired
-    private TecnicoRepository repository;
+    @Autowired private TecnicoRepository repository;
+    @Autowired private BCryptPasswordEncoder encoder;
 
     public Tecnico findById(Integer id) {
         Optional<Tecnico> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! id: " + id));
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
     }
 
+    // >>> retorna ENTIDADES
     public List<Tecnico> findAll() {
         return repository.findAll();
     }
 
-    public Tecnico create(TecnicoDTO objDTO) {
-        objDTO.setId(null);
-        validaCpf(objDTO);
-        Tecnico newObj = new Tecnico(objDTO);
-        return repository.save(newObj);
+    public Tecnico create(TecnicoDTO dto) {
+        dto.setId(null);
+        Tecnico tecnico = new Tecnico(dto);
+        tecnico.setSenha(encoder.encode(dto.getSenha()));
+        return repository.save(tecnico);
     }
-    
-    public Tecnico update(Integer id, TecnicoDTO objDTO) {
-        objDTO.setId(id);
-        Tecnico oldObj = findById(id);
-        validaCpf(objDTO);
-        oldObj = new Tecnico(objDTO);
-        return repository.save(oldObj);
+
+    public Tecnico update(Integer id, TecnicoDTO dto) {
+        Tecnico tecnico = findById(id);
+        tecnico.setNome(dto.getNome());
+        tecnico.setCpf(dto.getCpf());
+        tecnico.setEmail(dto.getEmail());
+        tecnico.setSenha(encoder.encode(dto.getSenha()));
+        return repository.save(tecnico);
     }
 
     public void delete(Integer id) {
-        Tecnico obj = findById(id);
-        if (obj.getChamados().size() > 0) {
-            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado!");
+        Tecnico tecnico = findById(id);
+        if (!tecnico.getChamados().isEmpty()) {
+            throw new DataIntegrityViolationException("Técnico possui chamados, não pode ser deletado!");
         }
         repository.deleteById(id);
-    }
-
-    private void validaCpf(TecnicoDTO objDTO) {
-        Optional<Tecnico> obj = repository.findByCpf(objDTO.getCpf());
-        if (obj.isPresent() && !obj.get().getId().equals(objDTO.getId())) {
-            throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-        }
     }
 }
