@@ -1,0 +1,65 @@
+<div class="login-container">
+  <mat-card class="login-card shadow-xl">
+    
+    <!-- TÍTULO PRINCIPAL E NOME PERSONALIZADO -->
+    <h1 class="text-xl font-semibold mb-4 text-center">
+      Help Desk - Estágio Supervisionado 2<br>
+      <span class="text-sm font-normal text-gray-600">por [Seu Nome]</span>
+    </h1>
+
+    <!-- ÁREA DA IMAGEM (Placeholder da UNICATÓLICA) -->
+    <div class="image-area mb-6">
+      <!-- 
+        IMPORTANTE: Não podemos carregar imagens externas. 
+        Usaremos um placeholder que simula a proporção da sua imagem, 
+        mantendo o layout fiel ao print. 
+      -->
+      <img src="https://placehold.co/600x250/E5E7EB/4B5563?text=UNICA%CC%81TOLICA+LOGO" 
+           alt="Logo da Instituição" 
+           class="w-full h-auto rounded-lg shadow-md" />
+    </div>
+
+    <!-- FORMULÁRIO DE LOGIN -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-card-content>
+
+        <!-- CAMPO E-MAIL/USERNAME -->
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>E-mail (Username)</mat-label>
+          <input matInput 
+                 formControlName="email" 
+                 type="email" 
+                 placeholder="ex: bill@mail.com" 
+                 required>
+          <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Por favor, insira um e-mail válido.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- CAMPO SENHA -->
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput 
+                 formControlName="senha" 
+                 type="password" 
+                 required>
+          <mat-error *ngIf="loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched">
+            A senha é obrigatória.
+          </mat-error>
+        </mat-form-field>
+        
+      </mat-card-content>
+
+      <mat-card-actions class="flex justify-center">
+        <button mat-raised-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="loginForm.invalid"
+                class="w-full text-lg py-2">
+          Login
+        </button>
+      </mat-card-actions>
+    </form>
+    
+  </mat-card>
+</div>

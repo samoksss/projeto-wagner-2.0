@@ -1,0 +1,14 @@
+/* Estilo para centralizar o card na tela */
+.login-card {
+  max-width: 400px; /* Largura máxima para um formulário de login */
+  margin: 100px auto; /* Centraliza horizontalmente e dá um bom espaçamento superior */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Alinha as ações (botões) ao centro */
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0 !important; /* Remove padding extra do material */
+}

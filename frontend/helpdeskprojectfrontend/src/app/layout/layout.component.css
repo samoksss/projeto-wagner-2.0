@@ -1,0 +1,22 @@
+/* Estilo para garantir que o container ocupe a tela */
+.app-container {
+    /* Altura total da tela menos a altura da toolbar (64px) */
+    height: calc(100vh - 64px); 
+}
+
+mat-sidenav {
+    width: 250px; /* Largura da barra lateral */
+}
+
+.content-area {
+    padding: 15px;
+}
+
+.spacer {
+    flex: 1 1 auto; /* Empurra o resto do conteúdo para a direita */
+}
+
+/* Estilo para realçar o link ativo, se desejar */
+.active-link {
+    background-color: rgba(0, 0, 0, 0.04); 
+}
