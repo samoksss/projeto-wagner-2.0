@@ -1,45 +1,54 @@
-// Conteúdo de app.module.ts (Adicione as importações do Material aqui)
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 
-// ... outros imports
+// Componentes principais
+import { AppComponent } from './app.component';
+import { LoginComponent } from './pages/login/login.component';
+import { LayoutComponent } from './layout/layout.component';
+import { HomeComponent } from './home/home.component';
 
-// NOVO: MÓDULOS PARA O LAYOUT (TOOLBAR, SIDENAV, LISTA E ÍCONES)
+// Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon'; 
-import { AppRoutingModule } from './app-routing.module'; // NOVO: Para o roteamento
-
-// Crie o componente Home antes de importar aqui
-// import { HomeComponent } from './home/home.component'; // (Faremos no Passo 3)
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    // HomeComponent // Incluir aqui após criar o componente
+    LayoutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule, // NOVO
-    
-    // Lógica e Comunicação
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule, 
-    
-    // Componentes Visuais do Material (Login)
+
+    // Angular Material
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatDividerModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    
-    // NOVO: Componentes Visuais do Material (Layout/Sidenav)
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
