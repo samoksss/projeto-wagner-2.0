@@ -1,14 +1,128 @@
-/* Estilo para centralizar o card na tela */
-.login-card {
-  max-width: 400px; /* Largura máxima para um formulário de login */
-  margin: 100px auto; /* Centraliza horizontalmente e dá um bom espaçamento superior */
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+/* Remove margens e rolagem da página inteira */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* impede barra de rolagem */
 }
 
-/* Alinha as ações (botões) ao centro */
-mat-card-actions {
+/* Container ocupa 100% da viewport, centraliza e aplica o fundo */
+.login-container {
+  position: fixed; /* fixa na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding-bottom: 0 !important; /* Remove padding extra do material */
+  padding: 24px;
+
+  /* Fundo com gradiente + imagem */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('/assets/bg-login.jpg') center/cover no-repeat;
+}
+
+/* Card com efeito vidro e sombra suave */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+}
+
+.login-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 25px 45px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+h1,
+h1 *,
+.title,
+.title *,
+.subtitle,
+.subtitle * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.subtitle,
+.subtitle * {
+  color: #f3f4f6 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+/* Campos */
+.field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+  color: #fff;
+}
+
+::ng-deep .mat-form-field-label {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+::ng-deep .mat-input-element {
+  color: #fff !important;
+}
+
+::ng-deep .mat-form-field-outline {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+mat-error {
+  color: #ffd6d6;
+}
+
+/* Botão */
+.actions {
+  display: flex !important;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn[color="primary"] {
+  background-color: #1976d2;
+}
+
+.btn[color="primary"]:hover {
+  background-color: #0d47a1;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 20px;
+  }
+  .title {
+    font-size: 20px;
+  }
 }

@@ -1,3 +1,19 @@
+/* Ícones da barra lateral */
+mat-sidenav mat-icon {
+  color: #212121 !important; /* preto suave */
+}
+
+/* Mantém os ícones brancos apenas na toolbar superior */
+mat-toolbar mat-icon {
+  color: white !important;
+}
+
+/* (opcional) realce o item ativo no menu lateral */
+.active-link {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+}
+
 /* Estilo para garantir que o container ocupe a tela */
 .app-container {
     /* Altura total da tela menos a altura da toolbar (64px) */
@@ -19,4 +35,21 @@ mat-sidenav {
 /* Estilo para realçar o link ativo, se desejar */
 .active-link {
     background-color: rgba(0, 0, 0, 0.04); 
+}
+
+/* Deixa a barra superior laranja */
+mat-toolbar {
+  background-color: #f57c00 !important; /* laranja */
+  color: white !important; /* texto e ícones brancos */
+}
+
+/* Garante contraste nos ícones do menu */
+mat-icon {
+  color: white !important;
+}
+
+/* (opcional) estiliza o título dentro da toolbar */
+mat-toolbar span {
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
