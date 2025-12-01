@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-title>Clientes</mat-card-title>
+  <mat-card-content>
+
+    <div class="mb-3">
+      <button mat-raised-button color="primary" (click)="novo()">
+        Novo Cliente
+      </button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>CPF/CNPJ</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of clientes">
+          <td>{{ c.id }}</td>
+          <td>{{ c.nome }}</td>
+          <td>{{ c.email }}</td>
+          <td>{{ c.cpfOuCnpj }}</td>
+          <td>
+            <button mat-button color="accent" (click)="editar(c.id)">Editar</button>
+            <button mat-button color="warn" (click)="deletar(c.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-title>Chamados</mat-card-title>
+  <mat-card-content>
+
+    <div class="mb-3">
+      <button mat-raised-button color="primary" (click)="novo()">
+        Novo Chamado
+      </button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Status</th>
+          <th>Prioridade</th>
+          <th>Técnico</th>
+          <th>Cliente</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of chamados">
+          <td>{{ c.id }}</td>
+          <td>{{ c.titulo }}</td>
+          <td>{{ c.status }}</td>
+          <td>{{ c.prioridade }}</td>
+          <td>{{ c.tecnicoId }}</td>
+          <td>{{ c.clienteId }}</td>
+          <td>
+            <button mat-button color="accent" (click)="editar(c.id)">Editar</button>
+            <button mat-button color="warn" (click)="deletar(c.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </mat-card-content>
+</mat-card>

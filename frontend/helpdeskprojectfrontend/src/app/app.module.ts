@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// Componentes principais
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
-import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './home/home.component';
+import { LayoutComponent } from './layout/layout.component';
+import { LoginComponent } from './pages/login/login.component';
+
+// COMPONENTES DE TÉCNICO
+import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
+
+// COMPONENTES DE CLIENTE
+import { ClientesComponent } from './pages/clientes/clientes.component';
+import { ClienteFormComponent } from './pages/clientes/cliente-form/cliente-form.component';
+
+// COMPONENTES DE CHAMADO
+import { ChamadosComponent } from './pages/chamados/chamados.component';
+import { ChamadoFormComponent } from './pages/chamados/chamado-form/chamado-form.component';
 
 // Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,23 +31,35 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    HomeComponent,
     LayoutComponent,
-    HomeComponent
+    LoginComponent,
+
+    // Técnicos
+    TecnicosComponent,
+
+    // Clientes
+    ClientesComponent,
+    ClienteFormComponent,
+
+    // Chamados
+    ChamadosComponent,
+    ChamadoFormComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
 
-    // Angular Material
+    // Material
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
@@ -46,7 +68,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
